@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusConnect - Polls</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">CampusConnect</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html#hero">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="polls.html">Polls</a></li>
+          <li class="nav-item"><a class="nav-link" href="memes.html">Memes</a></li>
+        </ul>
+        <button id="darkModeToggle" class="btn btn-outline-light ms-3">🌙 Dark Mode</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Polls Section -->
+  <section id="polls-section" class="fade-in">
+    <div class="container">
+      <h2>All Campus Polls</h2>
+      <div class="row" id="polls-container">
+        <!-- Poll  -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Back to Top Button -->
+  <button id="backToTop" title="Back to Top">⬆️</button>
+
+  <!-- Footer -->
+  <footer class="fade-in">
+    <p>&copy; 2025 CampusConnect | Built by Students</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Load polls dynamically
+    const pollsContainer = document.getElementById('polls-container');
+
+    fetch('php/fetch_polls.php')
+      .then(res => res.json())
+      .then(data => {
+        data.forEach(poll => {
+          const col = document.createElement('div');
+          col.classList.add('col-md-4', 'mb-4', 'fade-in');
+          col.setAttribute('data-poll-id', poll.id);
+
+          col.innerHTML = `
+            <div class="card shadow-sm p-3">
+              <h5>${poll.question}</h5>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="poll${poll.id}" id="poll${poll.id}Yes">
+                <label class="form-check-label" for="poll${poll.id}Yes">${poll.option_yes}</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="poll${poll.id}" id="poll${poll.id}No">
+                <label class="form-check-label" for="poll${poll.id}No">${poll.option_no}</label>
+              </div>
+              <button class="btn btn-cta mt-2">Vote</button>
+              <div class="progress mt-3">
+                <div class="progress-bar bg-success" style="width:${poll.yes_percent}%">
+                  Yes (${poll.yes_votes})
+                </div>
+                <div class="progress-bar bg-danger" style="width:${poll.no_percent}%">
+                  No (${poll.no_votes})
+                </div>
+              </div>
+            </div>
+          `;
+          pollsContainer.appendChild(col);
+        });
+      })
+      .catch(err => console.log("Failed to fetch polls:", err));
+  </script>
+
+</body>
+</html>
