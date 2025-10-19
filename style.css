@@ -171,29 +171,56 @@ footer {
   transition: background 0.4s, color 0.4s;
 }
 
-/* 
-   BACK TO TOP BUTTON
-    */
+/* Glassmorphic Back-to-Top Button */
 #backToTop {
   position: fixed;
-  bottom: 40px;
-  right: 40px;
-  display: none;
-  background: var(--primary);
-  color: #fff;
-  border: none;
-  padding: 12px 16px;
+  bottom: 30px;
+  right: 30px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15); /* semi-transparent */
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  color: white;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  font-size: 1.5rem;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s ease;
   z-index: 1000;
 }
+
+/* Visible when scrolling */
+#backToTop.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Subtle hover glow */
 #backToTop:hover {
-  transform: translateY(-5px) scale(1.1);
-  background: var(--secondary);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+  transform: scale(1.08);
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Dark mode variation */
+body.dark-mode #backToTop {
+  background: rgba(30, 30, 30, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fafafa;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode #backToTop:hover {
+  background: rgba(60, 60, 60, 0.45);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
 }
 
 /* 
@@ -262,4 +289,163 @@ body.dark-mode .navbar {
 body.dark-mode footer {
   background: #2c2c72;
   color: #fff;
+}
+
+/* CONTACT PAGE */
+.contact-section {
+  min-height: 100vh;
+  padding-top: 100px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.contact-img {
+  transition: transform 0.6s ease, filter 0.4s ease;
+}
+
+.contact-img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #ff6b6b, #feca57, #54a0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.form-floating input,
+.form-floating textarea {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.form-floating label {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.btn-primary {
+  background: var(--primary);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px var(--primary);
+}
+
+/* Dark mode tweaks */
+body.dark-mode .contact-section {
+  background: linear-gradient(135deg, #111, #222);
+}
+
+body.dark-mode .form-floating input,
+body.dark-mode .form-floating textarea {
+  background: rgba(255, 255, 255, 0.05);
+  color: #eee;
+}
+
+body.dark-mode .glass-card {
+  background: rgba(40, 40, 40, 0.5);
+}
+/*---------------------------------------------------------*/
+/* === SCROLL REVEAL ANIMATIONS === */
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.9s ease-out;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Optional subtle stagger animation */
+.reveal-delay {
+  transition-delay: 0.2s;
+}
+
+.reveal-delay-2 {
+  transition-delay: 0.4s;
+}
+
+/* Fade-in animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Vibrant card background for polls */
+#home-polls .card.bg-gradient {
+  background: linear-gradient(145deg, #ff6a00, #ff8c42);
+  color: #fff;
+  border-radius: 12px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#home-polls .card.bg-gradient:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.poll-question {
+  font-weight: 600;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* Buttons */
+.btn-cta {
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 12px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btn-cta:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(42,0,255,0.4);
+}
+
+
+/* Sparkle keyframes */
+@keyframes sparkle {
+  0% { background-position: 0 0; }
+  100% { background-position: 100% 100%; }
+}
+
+/* Tiny sparkle particles */
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, #fff 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: sparkle-fade 0.5s forwards;
+}
+
+@keyframes sparkle-fade {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
 }

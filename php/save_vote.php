@@ -1,25 +1,30 @@
 <?php
-include "connect.php";
+header('Content-Type: application/json');
 
-if (isset($_POST['poll_id'], $_POST['vote'])) {
-    $poll_id = intval($_POST['poll_id']);
-    $vote = $_POST['vote'];
-
-    if ($vote === 'yes') {
-        $sql = "UPDATE polls SET yes_votes = yes_votes + 1 WHERE id = $poll_id";
-    } else {
-        $sql = "UPDATE polls SET no_votes = no_votes + 1 WHERE id = $poll_id";
-    }
-
-    if ($conn->query($sql)) {
-        // Fetch updated results
-        $result = $conn->query("SELECT yes_votes, no_votes FROM polls WHERE id = $poll_id");
-        $row = $result->fetch_assoc();
-        echo json_encode($row);
-    } else {
-        echo json_encode(['error' => 'Failed to save vote']);
-    }
-} else {
-    echo json_encode(['error' => 'Invalid request']);
+// Database connection
+$mysqli = new mysqli("localhost", "root", "", "campusconnect");
+if ($mysqli->connect_errno) {
+    echo json_encode(["error" => "Database connection failed"]);
+    exit();
 }
+
+// Get POST data
+$poll_id = intval($_POST['poll_id'] ?? 0);
+$vote = $_POST['vote'] ?? '';
+
+if (!$poll_id || !in_array($vote, ['yes','no'])) {
+    echo json_encode(["error" => "Invalid request"]);
+    exit();
+}
+
+// Update vote
+$col = $vote === 'yes' ? 'yes_votes' : 'no_votes';
+$mysqli->query("UPDATE polls SET $col = $col + 1 WHERE id = $poll_id");
+
+// Fetch updated counts
+$result = $mysqli->query("SELECT yes_votes, no_votes FROM polls WHERE id = $poll_id");
+$data = $result->fetch_assoc();
+echo json_encode($data);
+
+$mysqli->close();
 ?>

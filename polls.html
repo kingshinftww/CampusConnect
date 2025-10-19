@@ -28,11 +28,11 @@
   </nav>
 
   <!-- Polls Section -->
-  <section id="polls-section" class="fade-in">
+  <section id="polls-section" class="fade-in mt-5 pt-5">
     <div class="container">
-      <h2>All Campus Polls</h2>
+      <h2 class="mb-4">Campus Polls</h2>
       <div class="row" id="polls-container">
-        <!-- Poll  -->
+        <!-- Polls loaded dynamically -->
       </div>
     </div>
   </section>
@@ -41,7 +41,7 @@
   <button id="backToTop" title="Back to Top">⬆️</button>
 
   <!-- Footer -->
-  <footer class="fade-in">
+  <footer class="fade-in mt-5">
     <p>&copy; 2025 CampusConnect | Built by Students</p>
   </footer>
 
@@ -49,7 +49,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/main.js"></script>
   <script>
-    // Load polls dynamically
+    // Fetch polls dynamically from backend
     const pollsContainer = document.getElementById('polls-container');
 
     fetch('php/fetch_polls.php')
@@ -71,7 +71,7 @@
                 <input class="form-check-input" type="radio" name="poll${poll.id}" id="poll${poll.id}No">
                 <label class="form-check-label" for="poll${poll.id}No">${poll.option_no}</label>
               </div>
-              <button class="btn btn-cta mt-2">Vote</button>
+              <button class="btn btn-primary mt-2">Vote</button>
               <div class="progress mt-3">
                 <div class="progress-bar bg-success" style="width:${poll.yes_percent}%">
                   Yes (${poll.yes_votes})
@@ -87,6 +87,5 @@
       })
       .catch(err => console.log("Failed to fetch polls:", err));
   </script>
-
 </body>
 </html>
